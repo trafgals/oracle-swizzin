@@ -1,0 +1,18 @@
+
+
+
+
+# Terraform
+terraform_oci/.terraform*
+terraform_oci/terraform.tfstate*
+terraform_oci/terraform.tfvars
+
+# SSH keys
+terraform_oci/id_rsa*
+terraform_oci/putty.ppk
+
+# Swizzin installer
+terraform_oci/install_swizzin.*
+
+resources/.DS_Store
+.DS_Store

@@ -1,0 +1,6 @@
+compartment_ocid="ocid1.tenancy.oc1..aaaaaaaa5tlotsoflettersraaaaaaaaaaa"
+swizzin_username="my_yuzername"
+swizzin_password="hugeP@ssw0rd1!"
+cloudflare_domainname="my_domain.com"
+cloudflare_email="my_email@my_domain.com"
+cloudflare_domain_api_token="my_apitoken"
