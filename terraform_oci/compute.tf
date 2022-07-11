@@ -132,8 +132,16 @@ EOT
       "sudo -i bash -c \"iptables -P INPUT ACCEPT && iptables -P OUTPUT ACCEPT && iptables -P FORWARD ACCEPT && iptables -F\"",
       # Below uninstalls iptables and iptables-persistent
       "sudo -i bash -c \"apt-get remove -y ufw iptables iptables-persistent && apt-get autoremove -y\"",
-      # Install swizzin if 'box test nginx' fails (otherwise we already have swizzin installed)
-      "sudo -i bash -c \"box test nginx || /home/ubuntu/install_swizzin.sh --env /home/ubuntu/swizzin_dotenv --user ${var.swizzin_username} --domain ${var.cloudflare_domainname} nginx panel letsencrypt\"",
+      # Install swizzin if 'box test nginx' fails (otherwise we already have swizzin installed). Install Plex to set up the plex group
+      "sudo -i bash -c \"box test nginx || /home/ubuntu/install_swizzin.sh --env /home/ubuntu/swizzin_dotenv --user ${var.swizzin_username} --domain ${var.cloudflare_domainname} nginx panel letsencrypt plex\"",
+      "sudo -i bash -c 'usermod -a -G ${var.swizzin_username} plex'",  # Add user to Plex group
+      "sudo -i bash -c 'chmod g+rx -R /home/${var.swizzin_username}'",  # Give user's homedir read/execute permissions to Plex group
+      "sudo -i bash -c 'mkdir 0777 /home/${var.swizzin_username}/downloads'",  # Create somewhere to stick all the downloads
+      "sudo -i bash -c 'mkdir 0777 /home/${var.swizzin_username}/downloads/Movies'", # Below aligns to NZBGet categories
+      "sudo -i bash -c 'mkdir 0777 /home/${var.swizzin_username}/downloads/TV'",
+      "sudo -i bash -c 'mkdir 0777 /home/${var.swizzin_username}/downloads/Music'",
+      "sudo -i bash -c 'mkdir 0777 /home/${var.swizzin_username}/downloads/Software'",
+      "sudo -i bash -c 'chown -R ${var.swizzin_username}:plex /home/${var.swizzin_username}/downloads'",
     ]
   }
 
