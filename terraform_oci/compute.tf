@@ -133,11 +133,11 @@ EOT
       # Below uninstalls iptables and iptables-persistent
       "sudo -i bash -c \"apt-get remove -y ufw iptables iptables-persistent && apt-get autoremove -y\"",
       # Install swizzin if 'box test nginx' fails (otherwise we already have swizzin installed)
-      "sudo -i bash -c \"box test nginx || /home/ubuntu/install_swizzin.sh --env /home/ubuntu/swizzin_dotenv --user ignore_this --domain ${var.cloudflare_domainname} nginx panel letsencrypt\"",
-      "sudo -i bash -c \"systemctl enable panel\"",  # Enable the panel service
+      "sudo -i bash -c \"box test nginx || /home/ubuntu/install_swizzin.sh --env /home/ubuntu/swizzin_dotenv --user ${var.swizzin_username} --domain ${var.cloudflare_domainname} nginx panel letsencrypt\"",
     ]
   }
 
+  # break it up so we get diagnostics on the above provisioner
   provisioner "remote-exec" {
     connection {
       type        = "ssh"
@@ -149,7 +149,7 @@ EOT
     }
     inline = [
       # Write username and encrypted password to panel access file
-      "sudo -i bash -c 'printf \"${var.swizzin_username}:$(openssl passwd -5 ${var.swizzin_password})\n\" >> /etc/htpasswd'",
+      "sudo -i bash -c 'box chpasswd ${var.swizzin_username} ${var.swizzin_password}'",
       # Restart panel service
       "sudo -i bash -c 'shutdown --reboot +1'",  # Restart the server
     ]
