@@ -19,6 +19,7 @@ Do not start naked torrent connections with Oracle cloud! They will delete your 
 * Run `rm ~/.oci/config && oci session authenticate --region us-ashburn-1` to refresh your oracle token. You have to do this every hour. Yes, it's stupid.
 * Run `terraform init -upgrade && terraform apply -auto-approve` to execute the Terraform
 * SSH into the server as Ubuntu, using the SSH key in `terraform_oci/id_rsa`, and run `sudo -i bash -c 'box install ombi plex'` to install ombi and plex (or whatever packages you want)
+* For all your installed packages, run `sudo -i bash -c 'sudo systemctl enable packagename'` - see service management instructions here: https://swizzin.ltd/applications/nzbget
 
 Within an hour, both LetsEncrypt and Cloudflare will update, and you should be able to connect to your server via secure HTTPS on your domain name! 
 Change line 10 in `compute.tf` to use a subdomain 
