@@ -23,3 +23,7 @@ Do not start naked torrent connections with Oracle cloud! They will delete your 
 
 Within an hour, both LetsEncrypt and Cloudflare will update, and you should be able to connect to your server via secure HTTPS on your domain name! 
 Change line 10 in `compute.tf` to use a subdomain 
+
+
+Todo: 
+* Automatically install the letsencrypt certificate into Plex - see here: https://hobo.house/2016/11/11/how-to-use-self-signed-ssl-certificates-for-plex-media-server/

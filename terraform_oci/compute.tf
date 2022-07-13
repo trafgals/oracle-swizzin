@@ -135,13 +135,15 @@ EOT
       # Install swizzin if 'box test nginx' fails (otherwise we already have swizzin installed). Install Plex to set up the plex group
       "sudo -i bash -c \"box test nginx || /home/ubuntu/install_swizzin.sh --env /home/ubuntu/swizzin_dotenv --user ${var.swizzin_username} --domain ${var.cloudflare_domainname} nginx panel letsencrypt plex\"",
       "sudo -i bash -c 'usermod -a -G ${var.swizzin_username} plex'",  # Add user to Plex group
-      "sudo -i bash -c 'chmod g+rx -R /home/${var.swizzin_username}'",  # Give user's homedir read/execute permissions to Plex group
+      "sudo -i bash -c 'chmod -R 0777 /home/${var.swizzin_username}'",  # Give user's homedir write permissions to Plex group
       "sudo -i bash -c 'mkdir 0777 /home/${var.swizzin_username}/downloads'",  # Create somewhere to stick all the downloads
-      "sudo -i bash -c 'mkdir 0777 /home/${var.swizzin_username}/downloads/Movies'", # Below aligns to NZBGet categories
-      "sudo -i bash -c 'mkdir 0777 /home/${var.swizzin_username}/downloads/TV'",
-      "sudo -i bash -c 'mkdir 0777 /home/${var.swizzin_username}/downloads/Music'",
-      "sudo -i bash -c 'mkdir 0777 /home/${var.swizzin_username}/downloads/Software'",
-      "sudo -i bash -c 'chown -R ${var.swizzin_username}:plex /home/${var.swizzin_username}/downloads'",
+      "sudo -i bash -c 'mkdir 0777 /home/${var.swizzin_username}/Movies'", # Below aligns to NZBGet categories
+      "sudo -i bash -c 'mkdir 0777 /home/${var.swizzin_username}/TV'",
+      "sudo -i bash -c 'mkdir 0777 /home/${var.swizzin_username}/Music'",
+      "sudo -i bash -c 'mkdir 0777 /home/${var.swizzin_username}/Software'",
+      "sudo -i bash -c 'chown -R ${var.swizzin_username}:plex /home/${var.swizzin_username}'",
+      # Clean up install scripts
+      "rm -f /home/ubuntu/install_swizzin.sh && rm -f /home/ubuntu/swizzin_dotenv",
     ]
   }
 
@@ -158,8 +160,8 @@ EOT
     inline = [
       # Write username and encrypted password to panel access file
       "sudo -i bash -c 'box chpasswd ${var.swizzin_username} ${var.swizzin_password}'",
-      # Restart panel service
-      "sudo -i bash -c 'shutdown --reboot +1'",  # Restart the server
+      # Restart the server
+      "sudo -i bash -c 'shutdown --reboot +1'",
     ]
   }
 }
